@@ -1,4 +1,4 @@
-import { Stack, Typography, Paper, IconButton } from "@mui/material";
+import { Stack, Typography, Paper, IconButton, TextField } from "@mui/material";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
@@ -11,9 +11,12 @@ const NavBar = () => {
 			alignItems="center"
 			sx={{
 				position: "sticky",
-				paddingLeft: 3,
+				paddingLeft: {
+					sm: 3,
+					xs: 1
+				},
 				paddingRight: 3,
-				paddingTop: 1,
+				paddingTop: "2px",
 				justifyContent: "space-between",
 			}}
 		>
@@ -30,27 +33,40 @@ const NavBar = () => {
 					</Typography>
 				</Stack>
 			</Stack>
-			<Stack direction="row">
+			<Stack direction="row" alignItems="center" sx={{ paddingTop: 1 }}>
 				<Paper
 					component="form"
 					onSubmit={() => {}}
 					sx={{
-						width: "400px",
-						height: "40px",
+						display: "flex",
+						width: {
+							md: "382px",
+							sm: "282px"
+						},
+						height: {
+							lg: "40px",
+							md: "35px",
+							sm: "30px"
+						},
 						borderTopLeftRadius: 20,
 						borderBottomLeftRadius: 20,
-						pl: 2,
-						pr: 2,
 						border: "1px solid #4f4f4f",
 						bgcolor: "#131212",
+						alignContent: "center",
 					}}
 				>
 					<input className="searchBar" placeholder="Search" />
 				</Paper>
 				<IconButton
+					aria-label="search"
+					size="small"
 					sx={{
 						width: "70px",
-						height: "42px",
+						height: {
+							lg: "41px",
+							md: "36px",
+							sm: "31px"
+						},
 						border: "1px solid #4f4f4f",
 						borderRadius: 0,
 						borderTopRightRadius: 20,
