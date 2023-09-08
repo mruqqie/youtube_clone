@@ -8,7 +8,23 @@ const sideBar = () => {
 		<Stack direction="column">
 			<Tooltip title="Home">
 				<IconButton>
-					<HomeIcon />
+					<HomeIcon
+						sx={{ color: "#ffffff", border: "1px solid #ffffff" }}
+					/>
+				</IconButton>
+			</Tooltip>
+			<Tooltip title="Subscriptions">
+				<IconButton>
+					<SubscriptionsOutlinedIcon
+						sx={{ color: "#ffffff", border: "1px solid #ffffff" }}
+					/>
+				</IconButton>
+			</Tooltip>
+			<Tooltip title="Library">
+				<IconButton>
+					<VideoLibraryOutlinedIcon
+						sx={{ color: "#ffffff", border: "1px solid #ffffff" }}
+					/>
 				</IconButton>
 			</Tooltip>
 		</Stack>
