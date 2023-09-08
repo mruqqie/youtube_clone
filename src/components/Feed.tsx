@@ -1,9 +1,8 @@
-import React from 'react'
+import { Stack, Grid } from "@mui/material";
+import SideBar from "./SideBar";
 
 const Feed = () => {
-  return (
-    <div>Feed</div>
-  )
-}
+	return <Grid direction="row"><SideBar /></Grid>;
+};
 
-export default Feed
+export default Feed;
