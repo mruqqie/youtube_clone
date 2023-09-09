@@ -1,8 +1,23 @@
-import { Stack, Grid } from "@mui/material";
+import { Stack, Grid, Skeleton } from "@mui/material";
 import SideBar from "./SideBar";
 
 const Feed = () => {
-	return <Grid direction="row" alignContent="flex-start" sx={{ display: "flex",width: "100%", border: "1px solid #ffffff"}}><SideBar /></Grid>;
+	return (
+		<Grid
+			direction="row"
+			alignContent="flex-start"
+			mt={3}
+			sx={{ display: "flex", border: "1px solid #ffffff" }}
+			container
+		>
+			<Grid item>
+				<SideBar />
+			</Grid>
+			<Grid item>
+				<Skeleton />
+			</Grid>
+		</Grid>
+	);
 };
 
 export default Feed;

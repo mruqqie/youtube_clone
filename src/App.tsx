@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
 import {
 	ChannelDetail,
 	Feed,
@@ -18,7 +18,8 @@ const theme = createTheme({
 
 function App() {
 	return (
-		<ThemeProvider theme={theme}>
+		//<ThemeProvider theme={theme}>
+		//	<CssBaseline />
 			<Box sx={{ backgroundColor: "#000000" }}>
 				<BrowserRouter>
 					<NavBar />
@@ -37,7 +38,7 @@ function App() {
 					</Routes>
 				</BrowserRouter>
 			</Box>
-		</ThemeProvider>
+		//</ThemeProvider>
 	);
 }
 
