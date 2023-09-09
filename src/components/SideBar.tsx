@@ -5,7 +5,15 @@ import VideoLibraryOutlinedIcon from "@mui/icons-material/VideoLibraryOutlined";
 
 const sideBar = () => {
 	return (
-		<Stack direction="column" gap={2}>
+		<Stack
+			gap={2}
+			sx={{
+				display: "flex", 
+				justifyContent: "center",
+				flexDirection: { sm: "column", xs: "row" },
+				gap: {xs: 6, sm: 2}
+			}}
+		>
 			<Tooltip title="Home" followCursor>
 				<IconButton
 					sx={{
@@ -24,8 +32,7 @@ const sideBar = () => {
 						sx={{
 							color: "#ffffff",
 							fontSize: {
-								md: "x-small",
-								sm: "x-small",
+								xs: "x-small"
 							},
 						}}
 					>
@@ -51,8 +58,7 @@ const sideBar = () => {
 						sx={{
 							color: "#ffffff",
 							fontSize: {
-								md: "x-small",
-								sm: "x-small",
+								xs: "x-small",
 							},
 						}}
 					>
@@ -78,8 +84,7 @@ const sideBar = () => {
 						sx={{
 							color: "#ffffff",
 							fontSize: {
-								md: "x-small",
-								sm: "x-small",
+								xs: "x-small",
 							},
 						}}
 					>
