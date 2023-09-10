@@ -51,7 +51,7 @@ const Feed = () => {
 							},
 						}}
 					>
-						<Box>
+						<Box sx={{display: "flex", alignItems: "center", flexDirection: "column", gap:2}}>
 							<Skeleton
 								sx={{
 									bgcolor: "grey.800",
@@ -60,179 +60,19 @@ const Feed = () => {
 								}}
 								variant="rounded"
 							/>
-						</Box>
-					</Grid>
-					<Grid
-						item
-						sx={{
-							width: {
-								lg: "24%",
-								md: "32%",
-								sm: "48%",
-								xs: "80%",
-							},
-						}}
-					>
-						<Box>
 							<Skeleton
 								sx={{
 									bgcolor: "grey.800",
-									width: "100%",
-									paddingBottom: "65%",
+									width: "98%",
+									paddingBottom: "0.5%",
 								}}
 								variant="rounded"
 							/>
-						</Box>
-					</Grid>
-					<Grid
-						item
-						sx={{
-							width: {
-								lg: "24%",
-								md: "32%",
-								sm: "48%",
-								xs: "80%",
-							},
-						}}
-					>
-						<Box>
 							<Skeleton
 								sx={{
 									bgcolor: "grey.800",
-									width: "100%",
-									paddingBottom: "65%",
-								}}
-								variant="rounded"
-							/>
-						</Box>
-					</Grid>
-					<Grid
-						item
-						sx={{
-							width: {
-								lg: "24%",
-								md: "32%",
-								sm: "48%",
-								xs: "80%",
-							},
-						}}
-					>
-						<Box>
-							<Skeleton
-								sx={{
-									bgcolor: "grey.800",
-									width: "100%",
-									paddingBottom: "65%",
-								}}
-								variant="rounded"
-							/>
-						</Box>
-					</Grid>
-					<Grid
-						item
-						sx={{
-							width: {
-								lg: "24%",
-								md: "32%",
-								sm: "48%",
-								xs: "80%",
-							},
-						}}
-					>
-						<Box>
-							<Skeleton
-								sx={{
-									bgcolor: "grey.800",
-									width: "100%",
-									paddingBottom: "65%",
-								}}
-								variant="rounded"
-							/>
-						</Box>
-					</Grid>
-					<Grid
-						item
-						sx={{
-							width: {
-								lg: "24%",
-								md: "32%",
-								sm: "48%",
-								xs: "80%",
-							},
-						}}
-					>
-						<Box>
-							<Skeleton
-								sx={{
-									bgcolor: "grey.800",
-									width: "100%",
-									paddingBottom: "65%",
-								}}
-								variant="rounded"
-							/>
-						</Box>
-					</Grid>
-					<Grid
-						item
-						sx={{
-							width: {
-								lg: "24%",
-								md: "32%",
-								sm: "48%",
-								xs: "80%",
-							},
-						}}
-					>
-						<Box>
-							<Skeleton
-								sx={{
-									bgcolor: "grey.800",
-									width: "100%",
-									paddingBottom: "65%",
-								}}
-								variant="rounded"
-							/>
-						</Box>
-					</Grid>
-					<Grid
-						item
-						sx={{
-							width: {
-								lg: "24%",
-								md: "32%",
-								sm: "48%",
-								xs: "80%",
-							},
-						}}
-					>
-						<Box>
-							<Skeleton
-								sx={{
-									bgcolor: "grey.800",
-									width: "100%",
-									paddingBottom: "65%",
-								}}
-								variant="rounded"
-							/>
-						</Box>
-					</Grid>
-					<Grid
-						item
-						sx={{
-							width: {
-								lg: "24%",
-								md: "32%",
-								sm: "48%",
-								xs: "80%",
-							},
-						}}
-					>
-						<Box>
-							<Skeleton
-								sx={{
-									bgcolor: "grey.800",
-									width: "100%",
-									paddingBottom: "65%",
+									width: "95%",
+									paddingBottom: "0.5%",
 								}}
 								variant="rounded"
 							/>
