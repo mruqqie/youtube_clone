@@ -10,7 +10,6 @@ const Feed = () => {
 			try {
 				const result = await fetchVideos();
 				setData(result)
-				console.log(result)
 			} catch (err) {
 				console.log(err)
 			}
@@ -19,6 +18,7 @@ const Feed = () => {
 	}, []);
 
 	const isXsScreen = useMediaQuery("(max-width:600px)");
+	console.log([data])
 	return (
 		<Grid
 			direction="row"
