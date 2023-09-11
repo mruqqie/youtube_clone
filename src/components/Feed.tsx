@@ -1,7 +1,23 @@
 import { Stack, Grid, Skeleton, Box, useMediaQuery } from "@mui/material";
 import SideBar from "./SideBar";
+import fetchVideos from "../api/fetchVideos";
+import React, { useEffect, useState } from "react";
 
 const Feed = () => {
+	const [data, setData] = useState([]);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const result = await fetchVideos();
+				setData(result)
+				console.log(result)
+			} catch (err) {
+				console.log(err)
+			}
+		};
+		fetchData()
+	}, []);
+
 	const isXsScreen = useMediaQuery("(max-width:600px)");
 	return (
 		<Grid
@@ -15,11 +31,7 @@ const Feed = () => {
 			container
 		>
 			{!isXsScreen && (
-				<Grid
-					item
-					xs={12}
-					sm="auto"
-				>
+				<Grid item xs={12} sm="auto">
 					<SideBar />
 				</Grid>
 			)}
@@ -51,7 +63,14 @@ const Feed = () => {
 							},
 						}}
 					>
-						<Box sx={{display: "flex", alignItems: "center", flexDirection: "column", gap:2}}>
+						<Box
+							sx={{
+								display: "flex",
+								alignItems: "center",
+								flexDirection: "column",
+								gap: 2,
+							}}
+						>
 							<Skeleton
 								sx={{
 									bgcolor: "grey.800",
@@ -60,32 +79,44 @@ const Feed = () => {
 								}}
 								variant="rounded"
 							/>
-							<Skeleton
-								sx={{
-									bgcolor: "grey.800",
-									width: "98%",
-									paddingBottom: "0.5%",
-								}}
-								variant="rounded"
-							/>
-							<Skeleton
-								sx={{
-									bgcolor: "grey.800",
-									width: "95%",
-									paddingBottom: "0.5%",
-								}}
-								variant="rounded"
-							/>
+							<Stack
+								gap={2}
+								direction="row"
+								sx={{ width: "100%" }}
+							>
+								<Skeleton
+									variant="circular"
+									width={40}
+									height={40}
+									sx={{
+										bgcolor: "grey.800",
+									}}
+								/>
+								<Stack gap={2} sx={{ width: "86%" }}>
+									<Skeleton
+										sx={{
+											bgcolor: "grey.800",
+											width: "100%",
+											paddingBottom: "0%",
+										}}
+										variant="rounded"
+									/>
+									<Skeleton
+										sx={{
+											bgcolor: "grey.800",
+											width: "60%",
+											paddingBottom: "0%",
+										}}
+										variant="rounded"
+									/>
+								</Stack>
+							</Stack>
 						</Box>
 					</Grid>
 				</Grid>
 			</Grid>
 			{isXsScreen && (
-				<Grid
-					item
-					xs={12}
-					sm="auto"
-				>
+				<Grid item xs={12} sm="auto">
 					<SideBar />
 				</Grid>
 			)}
