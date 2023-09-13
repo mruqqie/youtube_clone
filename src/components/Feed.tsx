@@ -1,24 +1,24 @@
 import { Stack, Grid, Skeleton, Box, useMediaQuery } from "@mui/material";
 import SideBar from "./SideBar";
-import fetchVideos from "../api/fetchVideos";
+import fetchVideos, { VidApiRes } from "../api/fetchVideos";
 import React, { useEffect, useState } from "react";
 
 const Feed = () => {
-	const [data, setData] = useState([]);
+	const [data, setData] = useState<VidApiRes | null>(null);
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const result = await fetchVideos();
-				setData(result)
+				setData(result);
 			} catch (err) {
-				console.log(err)
+				console.log(err);
 			}
 		};
-		fetchData()
+		fetchData();
 	}, []);
 
 	const isXsScreen = useMediaQuery("(max-width:600px)");
-	console.log([data])
+	console.log(data?.items.map(item => item.id));
 	return (
 		<Grid
 			direction="row"
