@@ -25,7 +25,8 @@ const Feed = () => {
 	}, []);
 
 	const isXsScreen = useMediaQuery("(max-width:600px)");
-	console.log(data);
+	console.log(data)
+	// console.log(data?.items.map(item=> item.snippet.thumbnails.high.url));
 	// console.log(data?.items.map(item => item.id));
 	return (
 		<Grid
@@ -162,17 +163,14 @@ const Feed = () => {
 								}}
 							>
 								<img
-									src={item.snippet.thumbnails.standard.url}
+									src={item.snippet.thumbnails.high.url}
 									width="100%"
-									// sx={{
-									// 	width: "100%",
-									// 	paddingBottom: "65%",
-									// }}
+									className="thumbnails"
 								/>
 								<Stack
 									gap={2}
 									direction="row"
-									sx={{ width: "100%" }}
+									sx={{ width: "100%", margin: "-10%" }}
 								>
 									<Skeleton
 										variant="circular"
@@ -194,9 +192,9 @@ const Feed = () => {
 										</Typography>
 										<Typography
 											sx={{
-												color: "#ffffff",
+												color: "#ada9a9",
 												width: "100%",
-												paddingBottom: "0%",
+												marginBottom: "10%",
 											}}
 											variant="body2"
 										>

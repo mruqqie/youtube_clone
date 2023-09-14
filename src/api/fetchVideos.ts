@@ -23,6 +23,8 @@ interface Items {
 			};
 			high: {
 				url: string;
+				height: string;
+				width: string;
 			};
 		};
 		statistics: {
