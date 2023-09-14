@@ -198,7 +198,8 @@ const Feed = () => {
 											}}
 											variant="body2"
 										>
-											{item.snippet.channelTitle}
+											{item.snippet.channelTitle}<br/>
+											{item.statistics.viewCount}
 										</Typography>
 									</Stack>
 								</Stack>

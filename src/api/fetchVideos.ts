@@ -26,11 +26,11 @@ interface Items {
 				height: string;
 				width: string;
 			};
-		};
-		statistics: {
-			viewcount: string;
-		};
+		}};
+	statistics: {
+			viewCount: string;
 	};
+	
 }
 
 export interface VidApiRes {
