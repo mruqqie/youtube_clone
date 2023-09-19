@@ -37,11 +37,11 @@ export interface VidApiRes {
 	items: Items[];
 }
 
-const BASE_URL = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=localizations&part=player&part=statistics&chart=mostPopular&maxResults=40&key=${process.env.REACT_APP_API_KEY}`;
+const VIDEO_BASE_URL = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=localizations&part=player&part=statistics&chart=mostPopular&maxResults=40&key=${process.env.REACT_APP_API_KEY}`;
 
 const fetchVideos = async (): Promise<VidApiRes> => {
 	try {
-		const res: AxiosResponse = await axios.get<VidApiRes>(BASE_URL);
+		const res: AxiosResponse = await axios.get<VidApiRes>(VIDEO_BASE_URL);
 		return res.data;
 	} catch (err) {
 		console.error("Error Fetching Data:", err);
