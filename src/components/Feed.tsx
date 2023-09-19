@@ -7,16 +7,25 @@ import {
 	Typography,
 } from "@mui/material";
 import SideBar from "./SideBar";
-import fetchVideos, { VidApiRes } from "../api/fetchVideos";
+import { fetchVideos, VidApiRes, fetchChannelDetails, ChannelApiRes } from "../api/fetchVideos";
 import React, { useEffect, useState } from "react";
+import ChannelDetail from "./ChannelDetail";
 
 const Feed = () => {
 	const [data, setData] = useState<VidApiRes | null>(null);
+	const [channelData, setChannelData] = useState<ChannelApiRes | null >(null)
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const result = await fetchVideos();
-				setData(result);
+				const videoResult = await fetchVideos();
+				setData(videoResult);
+
+				const channelIds = videoResult?.items.map((items)=>items.snippet.channelId)
+				if(channelIds) {
+					const channelResult = await fetchChannelDetails(channelIds.join(","))
+					setChannelData(channelResult)
+				}
+
 			} catch (err) {
 				console.log(err);
 			}
@@ -25,8 +34,10 @@ const Feed = () => {
 	}, []);
 
 	const isXsScreen = useMediaQuery("(max-width:600px)");
-	console.log(data)
-	// console.log(data?.items.map(item=> item.snippet.thumbnails.high.url));
+	//console.log(data);
+	console.log(channelData?.items.map((item) => item.snippet.thumbnails.high.url))
+	//console.log(channelData?.items.snippet.thumbnails.default.url)
+	// console.log(data?.items.map((item) => item.snippet.channelId));
 	// console.log(data?.items.map(item => item.id));
 	return (
 		<Grid
@@ -141,7 +152,9 @@ const Feed = () => {
 						paddingRight: "3px",
 					}}
 				>
-					{data?.items.map((item) => (
+					{data?.items.map((item) => {
+						const channelItem = channelData?.items.find((channel) => channel.id === item.snippet.channelId)
+						return (
 						<Grid
 							item
 							key={item.id}
@@ -172,13 +185,11 @@ const Feed = () => {
 									direction="row"
 									sx={{ width: "100%", margin: "-10%" }}
 								>
-									<Skeleton
-										variant="circular"
+									<img
+										src={channelItem?.snippet.thumbnails.high.url}
 										width={40}
 										height={40}
-										sx={{
-											bgcolor: "grey.800",
-										}}
+										className="channelPic"
 									/>
 									<Stack gap={2} sx={{ width: "86%" }}>
 										<Typography
@@ -194,18 +205,21 @@ const Feed = () => {
 											sx={{
 												color: "#ada9a9",
 												width: "100%",
-												marginBottom: "10%",
+												marginTop: "-5%",
+												marginBottom: "10%"
 											}}
 											variant="body2"
 										>
-											{item.snippet.channelTitle}<br/>
+											{item.snippet.channelTitle}
+											<br />
 											{item.statistics.viewCount}
 										</Typography>
 									</Stack>
 								</Stack>
 							</Box>
 						</Grid>
-					))}
+						)
+					})}
 				</Grid>
 			</Grid>
 

@@ -31,6 +31,10 @@
 	border: #ada9a9;
 }
 
+.channelPic {
+	border-radius: 50% 50%;
+}
+
 .App-logo {
 	height: 40vmin;
 	pointer-events: none;
