@@ -9,6 +9,7 @@ interface Items {
 	snippet: {
 		channelTitle: string;
 		channelId: string;
+		publishedAt: string;
 		localized: {
 			title: string;
 		};

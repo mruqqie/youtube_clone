@@ -14,6 +14,7 @@ import {
 	ChannelApiRes,
 } from "../api/fetchVideos";
 import React, { useEffect, useState } from "react";
+import CircleIcon from "@mui/icons-material/Circle";
 import ChannelDetail from "./ChannelDetail";
 
 const Feed = () => {
@@ -42,13 +43,8 @@ const Feed = () => {
 	}, []);
 
 	const isXsScreen = useMediaQuery("(max-width:599.5px)");
-	//console.log(data);
-	console.log(
-		channelData?.items.map((item) => item.snippet.thumbnails.high.url)
-	);
-	//console.log(channelData?.items.snippet.thumbnails.default.url)
-	// console.log(data?.items.map((item) => item.snippet.channelId));
-	// console.log(data?.items.map(item => item.id));
+
+	console.log(data?.items);
 	return (
 		<Grid
 			direction="row"
@@ -56,7 +52,12 @@ const Feed = () => {
 			mt={2}
 			sx={{
 				display: "flex",
-				height: { lg: "93.5vh", md: "91.3vh", sm: "91.4vh", xs: "91vh" },
+				height: {
+					lg: "93.5vh",
+					md: "91.3vh",
+					sm: "91.4vh",
+					xs: "91vh",
+				},
 			}}
 			container
 		>
@@ -166,6 +167,7 @@ const Feed = () => {
 						const channelItem = channelData?.items.find(
 							(channel) => channel.id === item.snippet.channelId
 						);
+
 						const formatViewCount = (viewCount: string) => {
 							const count = Number(viewCount);
 							if (count >= 1e6) {
@@ -178,7 +180,36 @@ const Feed = () => {
 								return count.toString();
 							}
 						};
-						console.log(formatViewCount("1153456"))
+
+						const timePosted = (timestamp: string) => {
+							const currentDate = new Date();
+							const publishedDate = new Date(timestamp);
+							const timeDifference =
+								Number(currentDate) - Number(publishedDate);
+
+							const seconds = Math.floor(timeDifference / 1000);
+							const minutes = Math.floor(seconds / 60);
+							const hours = Math.floor(minutes / 60);
+							const days = Math.floor(hours / 24);
+
+							if (days > 0) {
+								return `${days} day${
+									days !== 1 ? "s" : ""
+								} ago`;
+							} else if (hours > 0) {
+								return `${hours} hour${
+									hours !== 1 ? "s" : ""
+								} ago`;
+							} else if (minutes > 0) {
+								return `${minutes} minute${
+									minutes !== 1 ? "s" : ""
+								} ago`;
+							} else {
+								return `${seconds} second${
+									seconds !== 1 ? "s" : ""
+								} ago`;
+							}
+						};
 						return (
 							<Grid
 								item
@@ -240,7 +271,46 @@ const Feed = () => {
 											>
 												{item.snippet.channelTitle}
 												<br />
-												{formatViewCount(item.statistics.viewCount)} views
+												<Stack
+													direction="row"
+													alignItems="center"
+												>
+													<Typography
+														sx={{
+															color: "#ada9a9",
+															paddingRight: "4px",
+															marginBottom: "10%",
+														}}
+														variant="body2"
+													>
+														{formatViewCount(
+															item.statistics
+																.viewCount
+														)}{" "}
+														views
+													</Typography>
+													<CircleIcon
+														sx={{
+															color: "#ada9a9",
+															width: "4px",
+															height: "4px",
+															marginTop: "-9%",
+														}}
+													/>
+													<Typography
+														sx={{
+															color: "#ada9a9",
+															paddingLeft: "4px",
+															marginBottom: "10%",
+														}}
+														variant="body2"
+													>
+														{timePosted(
+															item.snippet
+																.publishedAt
+														)}{" "}
+													</Typography>
+												</Stack>
 											</Typography>
 										</Stack>
 									</Stack>
