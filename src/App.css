@@ -1,6 +1,18 @@
 .App {
 	/* text-align: center; */
 }
+body {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	overflow: hidden;
+}
+
+body {
+}
+
+body::-webkit-scrollbar {
+	width: 0;
+}
 
 .yt {
 	font-family: "Oswald", sans-serif;

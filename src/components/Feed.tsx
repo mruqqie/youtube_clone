@@ -7,25 +7,33 @@ import {
 	Typography,
 } from "@mui/material";
 import SideBar from "./SideBar";
-import { fetchVideos, VidApiRes, fetchChannelDetails, ChannelApiRes } from "../api/fetchVideos";
+import {
+	fetchVideos,
+	VidApiRes,
+	fetchChannelDetails,
+	ChannelApiRes,
+} from "../api/fetchVideos";
 import React, { useEffect, useState } from "react";
 import ChannelDetail from "./ChannelDetail";
 
 const Feed = () => {
 	const [data, setData] = useState<VidApiRes | null>(null);
-	const [channelData, setChannelData] = useState<ChannelApiRes | null >(null)
+	const [channelData, setChannelData] = useState<ChannelApiRes | null>(null);
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const videoResult = await fetchVideos();
 				setData(videoResult);
 
-				const channelIds = videoResult?.items.map((items)=>items.snippet.channelId)
-				if(channelIds) {
-					const channelResult = await fetchChannelDetails(channelIds.join(","))
-					setChannelData(channelResult)
+				const channelIds = videoResult?.items.map(
+					(items) => items.snippet.channelId
+				);
+				if (channelIds) {
+					const channelResult = await fetchChannelDetails(
+						channelIds.join(",")
+					);
+					setChannelData(channelResult);
 				}
-
 			} catch (err) {
 				console.log(err);
 			}
@@ -33,9 +41,11 @@ const Feed = () => {
 		fetchData();
 	}, []);
 
-	const isXsScreen = useMediaQuery("(max-width:600px)");
+	const isXsScreen = useMediaQuery("(max-width:599.5px)");
 	//console.log(data);
-	console.log(channelData?.items.map((item) => item.snippet.thumbnails.high.url))
+	console.log(
+		channelData?.items.map((item) => item.snippet.thumbnails.high.url)
+	);
 	//console.log(channelData?.items.snippet.thumbnails.default.url)
 	// console.log(data?.items.map((item) => item.snippet.channelId));
 	// console.log(data?.items.map(item => item.id));
@@ -46,7 +56,7 @@ const Feed = () => {
 			mt={2}
 			sx={{
 				display: "flex",
-				height: { sm: "91.2vh", xs: "91vh" },
+				height: { lg: "93.5vh", md: "91.3vh", sm: "91.4vh", xs: "91vh" },
 			}}
 			container
 		>
@@ -153,72 +163,90 @@ const Feed = () => {
 					}}
 				>
 					{data?.items.map((item) => {
-						const channelItem = channelData?.items.find((channel) => channel.id === item.snippet.channelId)
+						const channelItem = channelData?.items.find(
+							(channel) => channel.id === item.snippet.channelId
+						);
+						const formatViewCount = (viewCount: string) => {
+							const count = Number(viewCount);
+							if (count >= 1e6) {
+								// If count is at least 1 mil
+								return (count / 1e6).toFixed(1) + "M";
+							} else if (count >= 1e3) {
+								// If the count is at least 1 thousand
+								return (count / 1e3).toFixed(1) + "K";
+							} else {
+								return count.toString();
+							}
+						};
+						console.log(formatViewCount("1153456"))
 						return (
-						<Grid
-							item
-							key={item.id}
-							sx={{
-								width: {
-									lg: "24%",
-									md: "32%",
-									sm: "48%",
-									xs: "80%",
-								},
-							}}
-						>
-							<Box
+							<Grid
+								item
+								key={item.id}
 								sx={{
-									display: "flex",
-									alignItems: "center",
-									flexDirection: "column",
-									gap: 2,
+									width: {
+										lg: "24%",
+										md: "32%",
+										sm: "48%",
+										xs: "80%",
+									},
 								}}
 							>
-								<img
-									src={item.snippet.thumbnails.high.url}
-									width="100%"
-									className="thumbnails"
-								/>
-								<Stack
-									gap={2}
-									direction="row"
-									sx={{ width: "100%", margin: "-10%" }}
+								<Box
+									sx={{
+										display: "flex",
+										alignItems: "center",
+										flexDirection: "column",
+										gap: 2,
+									}}
 								>
 									<img
-										src={channelItem?.snippet.thumbnails.high.url}
-										width={40}
-										height={40}
-										className="channelPic"
+										src={item.snippet.thumbnails.high.url}
+										width="100%"
+										className="thumbnails"
 									/>
-									<Stack gap={2} sx={{ width: "86%" }}>
-										<Typography
-											sx={{
-												color: "#ffffff",
-												width: "100%",
-											}}
-											variant="body2"
-										>
-											{item.snippet.localized.title}
-										</Typography>
-										<Typography
-											sx={{
-												color: "#ada9a9",
-												width: "100%",
-												marginTop: "-5%",
-												marginBottom: "10%"
-											}}
-											variant="body2"
-										>
-											{item.snippet.channelTitle}
-											<br />
-											{item.statistics.viewCount}
-										</Typography>
+									<Stack
+										gap={2}
+										direction="row"
+										sx={{ width: "100%", margin: "-10%" }}
+									>
+										<img
+											src={
+												channelItem?.snippet.thumbnails
+													.high.url
+											}
+											width={40}
+											height={40}
+											className="channelPic"
+										/>
+										<Stack gap={2} sx={{ width: "86%" }}>
+											<Typography
+												sx={{
+													color: "#ffffff",
+													width: "100%",
+												}}
+												variant="body2"
+											>
+												{item.snippet.localized.title}
+											</Typography>
+											<Typography
+												sx={{
+													color: "#ada9a9",
+													width: "100%",
+													marginTop: "-5%",
+													marginBottom: "10%",
+												}}
+												variant="body2"
+											>
+												{item.snippet.channelTitle}
+												<br />
+												{formatViewCount(item.statistics.viewCount)} views
+											</Typography>
+										</Stack>
 									</Stack>
-								</Stack>
-							</Box>
-						</Grid>
-						)
+								</Box>
+							</Grid>
+						);
 					})}
 				</Grid>
 			</Grid>
