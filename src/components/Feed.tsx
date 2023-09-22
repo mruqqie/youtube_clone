@@ -210,6 +210,28 @@ const Feed = () => {
 								} ago`;
 							}
 						};
+
+						const convertISODuration = (duration: string) => { const matches = duration.match(/PT(\d+)H?(\d+)M?(\d+)S/);
+
+						if (!matches) {
+							throw new Error("Invalid ISO 8601 duration format");
+						}
+					
+						const hours = String(parseInt(matches[1] || '0'));
+						const minutes = String(parseInt(matches[2] || '0'));
+						const seconds = String(parseInt(matches[3] || '0'));
+					
+						if (hours !== '0') {
+							return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+						} else {
+							return `${minutes}:${String(seconds).padStart(2, "0")}`;
+						}
+					};
+					
+					//console.log(convertISODuration("PT3H31M15S")); // Output: "3:31:15"
+					//console.log(convertISODuration("PT30M45S"));   // Output: "30:45"
+						//console.log(item.contentDetails.duration)
+						console.log(convertISODuration(item.contentDetails.duration))
 						return (
 							<Grid
 								item
@@ -228,18 +250,44 @@ const Feed = () => {
 										display: "flex",
 										alignItems: "center",
 										flexDirection: "column",
-										gap: 2,
+										gap: 1,
+										height: "90%",
 									}}
 								>
-									<img
-										src={item.snippet.thumbnails.high.url}
+									<Stack
 										width="100%"
-										className="thumbnails"
-									/>
+										sx={{
+											display: "flex",
+											flexDirection: "row",
+											alignItems: "flex-end",
+										}}
+									>
+										<img
+											src={
+												item.snippet.thumbnails.high.url
+											}
+											width="100%"
+											className="thumbnails"
+										/>
+										<Typography
+											sx={{
+												color: "#ffffff",
+												bgcolor: "#000000",
+												width: "auto",
+												marginLeft: "-10%",
+												"&:hover": {
+													cursor: "pointer",
+												},
+												fontSize: "small",
+											}}
+										>
+											1:00
+										</Typography>
+									</Stack>
 									<Stack
 										gap={2}
 										direction="row"
-										sx={{ width: "100%", margin: "-10%" }}
+										sx={{ width: "100%", height: "30%" }}
 									>
 										<img
 											src={
@@ -255,6 +303,9 @@ const Feed = () => {
 												sx={{
 													color: "#ffffff",
 													width: "100%",
+													"&:hover": {
+														cursor: "pointer",
+													},
 												}}
 												variant="body2"
 											>
@@ -265,7 +316,9 @@ const Feed = () => {
 													color: "#ada9a9",
 													width: "100%",
 													marginTop: "-5%",
-													marginBottom: "10%",
+													"&:hover": {
+														cursor: "pointer",
+													},
 												}}
 												variant="body2"
 											>
@@ -274,6 +327,11 @@ const Feed = () => {
 												<Stack
 													direction="row"
 													alignItems="center"
+													sx={{
+														"&:hover": {
+															cursor: "pointer",
+														},
+													}}
 												>
 													<Typography
 														sx={{
