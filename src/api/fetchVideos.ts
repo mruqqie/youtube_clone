@@ -33,6 +33,7 @@ interface Items {
 	statistics: {
 		viewCount: string;
 	};
+	nextPageToken: string;
 }
 
 interface ChannelItems {
@@ -60,6 +61,7 @@ interface ChannelItems {
 
 export interface VidApiRes {
 	items: Items[];
+	nextPageToken?: string;
 }
 
 export interface ChannelApiRes {
