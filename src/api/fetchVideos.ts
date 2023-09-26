@@ -68,7 +68,7 @@ export interface ChannelApiRes {
 	items: ChannelItems[];
 }
 
-const VIDEO_BASE_URL = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=localizations&part=player&part=statistics&chart=mostPopular&maxResults=40&key=${process.env.REACT_APP_API_KEY}`;
+const VIDEO_BASE_URL = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=localizations&part=player&part=statistics&chart=mostPopular&maxResults=50&key=${process.env.REACT_APP_API_KEY}`;
 
 const fetchVideos = async (): Promise<VidApiRes> => {
 	try {

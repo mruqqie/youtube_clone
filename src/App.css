@@ -2,9 +2,11 @@
 	/* text-align: center; */
 }
 body {
+	padding-top: 5px;
 	scrollbar-width: none;
 	-ms-overflow-style: none;
 	overflow: hidden;
+	background-color: #000000;
 }
 
 

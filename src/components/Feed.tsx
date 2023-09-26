@@ -14,38 +14,21 @@ import {
 	fetchChannelDetails,
 	ChannelApiRes,
 } from "../api/fetchVideos";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import CircleIcon from "@mui/icons-material/Circle";
 
 const Feed = () => {
 	const [data, setData] = useState<VidApiRes | null>(null);
 	const [channelData, setChannelData] = useState<ChannelApiRes | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
-	const [pageToken, setPageToken] = useState<string | null>(null);
 
-	const lastVideoRef = useRef<HTMLDivElement | null>(null);
 	useEffect(() => {
 		fetchData();
 	}, []);
 	const fetchData = async () => {
 		try {
 			const videoResult = await fetchVideos();
-			//setData(videoResult);
-
-			setData((prevVideos: VidApiRes | null) => {
-				if (!prevVideos) {
-					return {
-						items: videoResult.items,
-					};
-				}
-				return {
-					items: [...prevVideos.items, ...videoResult.items],
-					nextPageToken:
-						videoResult.nextPageToken || prevVideos.nextPageToken,
-				};
-			});
-
-			//setPageToken(videoResult.nextPageToken)
+			setData(videoResult);
 
 			const channelIds = videoResult?.items.map(
 				(items) => items.snippet.channelId
@@ -62,26 +45,6 @@ const Feed = () => {
 			setIsLoading(false);
 		}
 	};
-
-	const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-		const target = entries[0];
-		if (target.isIntersecting && isLoading && pageToken) {
-			fetchData(); // Load more data when the last video element is in view
-		}
-	};
-
-	useEffect(() => {
-		const observer = new IntersectionObserver(handleIntersection, {
-			threshold: 0.1, // Trigger when 10% of the element is visible
-		});
-
-		if (lastVideoRef.current) {
-			observer.observe(lastVideoRef.current);
-		}
-
-		// Cleanup observer
-		return () => observer.disconnect();
-	}, [lastVideoRef]);
 
 	const isXsScreen = useMediaQuery("(max-width:599.5px)");
 	const skeletonArray = Array.from({ length: 40 }, (_, index) => index);
@@ -256,11 +219,6 @@ const Feed = () => {
 								<Grid
 									item
 									key={item.id}
-									ref={
-										index === data.items.length - 1
-											? lastVideoRef
-											: null
-									}
 									sx={{
 										width: {
 											lg: "24%",
