@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import NavBar from "./NavBar";
 
 const VideoDetail = () => {
-  return (
-    <div>VideoDetail</div>
-  )
-}
+	return (
+		<>
+			<NavBar />
+		</>
+	);
+};
 
-export default VideoDetail
+export default VideoDetail;

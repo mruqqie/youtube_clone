@@ -20,24 +20,23 @@ function App() {
 	return (
 		//<ThemeProvider theme={theme}>
 		//	<CssBaseline />
-			<Box sx={{ backgroundColor: "#000000" }}>
-				<BrowserRouter>
-					<NavBar />
-					<Routes>
-						<Route
-							path="/channel/:id"
-							element={<ChannelDetail />}
-						/>
-						<Route path="/" element={<Feed />} />
-						<Route
-							path="/search/:searchTerm"
-							element={<SearchFeed />}
-						/>
-						<Route path="/" element={<Feed />} />
-						<Route path="/video/:id" element={<VideoDetail />} />
-					</Routes>
-				</BrowserRouter>
-			</Box>
+		<Box sx={{ backgroundColor: "#000000" }}>
+			<BrowserRouter>
+				<Routes>
+					<Route
+						path="/channel/:id"
+						element={<ChannelDetail />}
+					/>
+					<Route path="/" element={<Feed />} />
+					<Route
+						path="/search/:searchTerm"
+						element={<SearchFeed />}
+					/>
+					<Route path="/" element={<Feed />} />
+					<Route path="/video/:id" element={<VideoDetail />} />
+				</Routes>
+			</BrowserRouter>
+		</Box>
 		//</ThemeProvider>
 	);
 }

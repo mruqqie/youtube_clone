@@ -7,9 +7,8 @@ body {
 	-ms-overflow-style: none;
 	overflow: hidden;
 	background-color: #000000;
+	color: white;
 }
-
-
 
 body::-webkit-scrollbar {
 	width: 0;
