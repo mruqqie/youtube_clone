@@ -6,6 +6,9 @@ interface Items {
 		duration: string;
 	};
 	id: string;
+	player: {
+		embedHtml: string;
+	};
 	snippet: {
 		channelTitle: string;
 		channelId: string;
@@ -57,7 +60,7 @@ interface ChannelItems {
 			};
 		};
 	};
-};
+}
 
 export interface VidApiRes {
 	items: Items[];

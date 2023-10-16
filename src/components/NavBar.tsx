@@ -10,11 +10,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
 	const isXsScreen = useMediaQuery("(max-width:600px)");
 	const [showSearchInput, setShowSearchInput] = useState(false);
+
+	const navigate = useNavigate()
 	const renderSearchIcon = () => {
 		if (isXsScreen) {
 			return (
@@ -44,7 +46,7 @@ const NavBar = () => {
 				>
 					<Paper
 						component="form"
-						onSubmit={() => {}}
+						onSubmit={() => { }}
 						sx={{
 							display: "flex",
 							width: {
@@ -108,7 +110,7 @@ const NavBar = () => {
 					</IconButton>
 					<Paper
 						component="form"
-						onSubmit={() => {}}
+						onSubmit={() => { }}
 						sx={{
 							display: "flex",
 							width: "70%",
@@ -165,7 +167,11 @@ const NavBar = () => {
 							sx={{ color: "#9a9898" }}
 							fontSize={isXsScreen ? "small" : "medium"}
 						/>
-						<Stack direction="row" alignItems="center">
+						<Stack direction="row" alignItems="center" className="ytIcon"
+							onClick={() => {
+								navigate("/")
+							}}
+						>
 							<YouTubeIcon
 								sx={{ color: "#ff0000" }}
 								fontSize={isXsScreen ? "medium" : "large"}
@@ -185,7 +191,7 @@ const NavBar = () => {
 		}
 	};
 
-	return <div>{renderSearchInput()}</div>;
+	return <div style={{ position: "sticky", top: 0, zIndex: 100, backgroundColor: "#000000", paddingBottom: "8px"}}>{renderSearchInput()}</div>;
 };
 
 export default NavBar;

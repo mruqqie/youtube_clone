@@ -24,7 +24,7 @@ const Feed = () => {
 	const [channelData, setChannelData] = useState<ChannelApiRes | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		fetchData();
@@ -63,12 +63,7 @@ const Feed = () => {
 				mt={2}
 				sx={{
 					display: "flex",
-					height: {
-						lg: "93.5vh",
-						md: "91.3vh",
-						sm: "91.4vh",
-						xs: "91vh",
-					},
+					height: "100%",
 				}}
 				container
 			>
@@ -83,7 +78,6 @@ const Feed = () => {
 					sm
 					sx={{
 						height: { xs: "90%", sm: "100%" },
-						overflowY: "scroll",
 					}}
 				>
 					{isLoading ? (
@@ -176,7 +170,7 @@ const Feed = () => {
 								paddingRight: "3px",
 							}}
 						>
-							{data?.items.map((item, index) => {
+							{data?.items.map((item) => {
 								const channelItem = channelData?.items.find(
 									(channel) =>
 										channel.id === item.snippet.channelId
@@ -185,10 +179,8 @@ const Feed = () => {
 								const formatViewCount = (viewCount: string) => {
 									const count = Number(viewCount);
 									if (count >= 1e6) {
-										// If count is at least 1 mil
 										return (count / 1e6).toFixed(1) + "M";
 									} else if (count >= 1e3) {
-										// If the count is at least 1 thousand
 										return (count / 1e3).toFixed(1) + "K";
 									} else {
 										return count.toString();
@@ -266,7 +258,14 @@ const Feed = () => {
 													width="100%"
 													className="thumbnails"
 													onClick={() => {
-														navigate(`/video/${item.id}`)
+														navigate(
+															`/video/${item.id}`,
+															{
+																state: {
+																	id: item.id
+																},
+															}
+														);
 													}}
 												/>
 											</Stack>
@@ -315,7 +314,9 @@ const Feed = () => {
 															}}
 															variant="body2"
 															onClick={() => {
-																navigate(`/video/${item.id}`)
+																navigate(
+																	`/video/${item.id}`
+																);
 															}}
 														>
 															{
@@ -420,7 +421,20 @@ const Feed = () => {
 				</Grid>
 
 				{isXsScreen && (
-					<Grid item xs={12} sm="auto">
+					<Grid
+						item
+						xs={12}
+						sm="auto"
+						sx={{
+							position: "fixed",
+							bottom: 0,
+							zIndex: 100,
+							backgroundColor: "#000000",
+							width: "100%",
+							display: "flex",
+							justifyContent: "space-around",
+						}}
+					>
 						<SideBar />
 					</Grid>
 				)}

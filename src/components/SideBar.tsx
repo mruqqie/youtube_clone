@@ -11,7 +11,11 @@ const sideBar = () => {
 				display: "flex", 
 				justifyContent: "center",
 				flexDirection: { sm: "column", xs: "row" },
-				gap: {xs: 6, sm: 2}
+				gap: {xs: 6, sm: 2},
+				position: "sticky",
+        top: 70,
+        left: 0,
+        zIndex: 100,
 			}}
 		>
 			<Tooltip title="Home" followCursor>
