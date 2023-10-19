@@ -262,7 +262,21 @@ const Feed = () => {
 															`/video/${item.id}`,
 															{
 																state: {
-																	id: item.id
+																	id: item.id,
+																	title: item
+																		.snippet
+																		.localized
+																		.title,
+																	channelImg:
+																		channelItem
+																			?.snippet
+																			.thumbnails
+																			.high
+																			.url,
+																	channelTitle:
+																		item
+																			.snippet
+																			.channelTitle,
 																},
 															}
 														);

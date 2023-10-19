@@ -1,11 +1,11 @@
 import React from "react";
 import NavBar from "./NavBar";
-import { Box, Skeleton, Stack } from "@mui/material";
+import { Box, Button, Skeleton, Stack, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
 const VideoDetail = () => {
 	const location = useLocation();
-	const { id } = location.state;
+	const { id, title, channelImg, channelTitle } = location.state;
 
 	return (
 		<>
@@ -46,76 +46,129 @@ const VideoDetail = () => {
 						/>
 					</Stack>
 				</Stack>
-				<Stack sx={{ paddingLeft: { xs: "10vw" }, paddingTop: "20px" }}>
-					<Skeleton
+				<Stack
+					sx={{
+						//paddingLeft: { xs: "10vw" },
+						paddingTop: "10px",
+						width: {
+							xs: "90%",
+							sm: "70%",
+							lg: "62%",
+						},
+						margin: { xs: "auto" },
+						marginLeft: { sm: "6vw" },
+					}}
+				>
+					<Typography
 						sx={{
-							bgcolor: "grey.800",
-							width: { xs: "45vw", sm: "35vw", lg: "30vw" },
+							width: "100%",
 							height: "20px",
+							fontSize: "medium",
+							fontWeight: "600",
 						}}
-						variant="rounded"
-					/>
+						variant="h6"
+					>
+						{title}
+					</Typography>
 				</Stack>
 				<Stack
 					direction="row"
 					sx={{
 						display: "flex",
 						justifyContent: "space-between",
-						width: { xs: "83%", sm: "64%", lg: "57%" },
-						paddingLeft: { xs: "10vw" },
 						paddingTop: 1,
+						width: {
+							xs: "90%",
+							sm: "70%",
+							lg: "62%",
+						},
+						margin: { xs: "auto" },
+						marginLeft: { sm: "6vw" },
 					}}
 				>
-					<Skeleton
-						sx={{
-							bgcolor: "grey.800",
-							width: "16%",
-							height: "20px",
-						}}
-						variant="rounded"
-					/>
-					<Stack direction="row" gap="1vw">
-						<Skeleton
-							variant="circular"
-							width={20}
-							height={20}
+					<Stack direction="row" sx={{
+						width: "100%",
+								display: "flex",
+								justifyContent: "space-between",
+								alignItems: "center",
+							}}>
+						<Stack
+							direction="row"
+							gap={1}
 							sx={{
-								bgcolor: "grey.800",
+								display: "flex",
+								justifyContent: "space-between",
+								alignItems: "center",
 							}}
-						/>
-						<Skeleton
-							variant="circular"
-							width={20}
-							height={20}
-							sx={{
-								bgcolor: "grey.800",
-							}}
-						/>
-						<Skeleton
-							variant="circular"
-							width={20}
-							height={20}
-							sx={{
-								bgcolor: "grey.800",
-							}}
-						/>
-						<Skeleton
-							variant="circular"
-							width={20}
-							height={20}
-							sx={{
-								bgcolor: "grey.800",
-							}}
-						/>
-						<Skeleton
-							variant="circular"
-							width={20}
-							height={20}
-							sx={{
-								bgcolor: "grey.800",
-							}}
-						/>
+						>
+							<img
+								src={channelImg}
+								width={35}
+								height={35}
+								className="channelPic"
+							/>
+							<Typography
+								sx={{
+									width: "100%",
+									height: "auto",
+									fontWeight: "600",
+									fontSize: "medium",
+								}}
+							>
+								{channelTitle}
+							</Typography>
+						</Stack>
+						<Stack>
+							<Button
+								sx={{ textTransform: "none", width: "100px", fontWeight: "600", color: "#000000", borderRadius: "20px", backgroundColor: "#ffffff" }}
+							>
+								Subsribe
+							</Button>
+						</Stack>
 					</Stack>
+
+					{/* <Stack direction="row" gap="1vw">
+						<Skeleton
+							variant="circular"
+							width={20}
+							height={20}
+							sx={{
+								bgcolor: "grey.800",
+							}}
+						/>
+						<Skeleton
+							variant="circular"
+							width={20}
+							height={20}
+							sx={{
+								bgcolor: "grey.800",
+							}}
+						/>
+						<Skeleton
+							variant="circular"
+							width={20}
+							height={20}
+							sx={{
+								bgcolor: "grey.800",
+							}}
+						/>
+						<Skeleton
+							variant="circular"
+							width={20}
+							height={20}
+							sx={{
+								bgcolor: "grey.800",
+							}}
+						/>
+						<Skeleton
+							variant="circular"
+							width={20}
+							height={20}
+							sx={{
+								bgcolor: "grey.800",
+							}}
+						/>
+					</Stack> */}
 				</Stack>
 			</Box>
 		</>

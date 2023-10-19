@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import { channel } from "diagnostics_channel";
 
 interface Items {
 	contentDetails: {
