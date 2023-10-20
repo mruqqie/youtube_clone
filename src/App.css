@@ -51,7 +51,7 @@ body::-webkit-scrollbar {
 }
 
 .channelPic:hover {
-	cursor: pointer;
+	/* cursor: pointer; */
 }
 
 .App-logo {

@@ -53,7 +53,7 @@ const Feed = () => {
 	const isXsScreen = useMediaQuery("(max-width:599.5px)");
 	const skeletonArray = Array.from({ length: 40 }, (_, index) => index);
 
-	console.log(data);
+	// console.log(data);
 	return (
 		<>
 			<NavBar />
@@ -329,7 +329,26 @@ const Feed = () => {
 															variant="body2"
 															onClick={() => {
 																navigate(
-																	`/video/${item.id}`
+																	`/video/${item.id}`,
+																	{
+																		state: {
+																			id: item.id,
+																			title: item
+																				.snippet
+																				.localized
+																				.title,
+																			channelImg:
+																				channelItem
+																					?.snippet
+																					.thumbnails
+																					.high
+																					.url,
+																			channelTitle:
+																				item
+																					.snippet
+																					.channelTitle,
+																		},
+																	}
 																);
 															}}
 														>
@@ -344,9 +363,6 @@ const Feed = () => {
 														sx={{
 															width: "100%",
 															marginTop: "-5%",
-															"&:hover": {
-																cursor: "pointer",
-															},
 														}}
 													>
 														<Tooltip
@@ -359,9 +375,6 @@ const Feed = () => {
 																sx={{
 																	color: "#ada9a9",
 																	width: "100%",
-																	"&:hover": {
-																		cursor: "pointer",
-																	},
 																}}
 																variant="body2"
 															>
@@ -375,11 +388,6 @@ const Feed = () => {
 														<Stack
 															direction="row"
 															alignItems="center"
-															sx={{
-																"&:hover": {
-																	cursor: "pointer",
-																},
-															}}
 														>
 															<Typography
 																sx={{

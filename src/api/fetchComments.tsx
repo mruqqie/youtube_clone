@@ -2,11 +2,16 @@ import axios, { AxiosResponse } from "axios";
 
 interface Items {
 	snippet: {
-		textOriginal: string;
-		authorDisplayName: string;
-		authorProfileImageUrl: string;
+		topLevelComment: {
+			snippet: {
+				textOriginal: string;
+				authorDisplayName: string;
+				authorProfileImageUrl: string;
+				publishedAt: string;
+				likeCount: number;
+			};
+		};
 	};
-	publishedAt: string
 }
 
 export interface CommentsApiRes {
