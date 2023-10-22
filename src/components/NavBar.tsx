@@ -16,7 +16,21 @@ const NavBar = () => {
 	const isXsScreen = useMediaQuery("(max-width:600px)");
 	const [showSearchInput, setShowSearchInput] = useState(false);
 
-	const navigate = useNavigate()
+	const [searchTerm, setSearchTerm] = useState<string>("");
+	const handleSearch = () => {
+		navigate(`/search/${searchTerm}`, {
+		  state: { searchTerm: searchTerm },
+		});
+	  };
+	  
+	  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') {
+		  handleSearch();
+		}
+	  };
+	console.log(searchTerm);
+
+	const navigate = useNavigate();
 	const renderSearchIcon = () => {
 		if (isXsScreen) {
 			return (
@@ -46,7 +60,7 @@ const NavBar = () => {
 				>
 					<Paper
 						component="form"
-						onSubmit={() => { }}
+						onSubmit={() => {}}
 						sx={{
 							display: "flex",
 							width: {
@@ -65,7 +79,13 @@ const NavBar = () => {
 							alignContent: "center",
 						}}
 					>
-						<input className="searchBar" placeholder="Search" />
+						<input
+							className="searchBar"
+							placeholder="Search"
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+							onKeyDown={handleKeyPress}
+						/>
 					</Paper>
 					<IconButton
 						aria-label="search"
@@ -83,6 +103,7 @@ const NavBar = () => {
 							borderBottomRightRadius: 20,
 							bgcolor: "#323232",
 						}}
+						onClick={handleSearch}
 					>
 						<SearchIcon sx={{ color: "#ffffff" }} />
 					</IconButton>
@@ -110,7 +131,7 @@ const NavBar = () => {
 					</IconButton>
 					<Paper
 						component="form"
-						onSubmit={() => { }}
+						onSubmit={() => {}}
 						sx={{
 							display: "flex",
 							width: "70%",
@@ -121,7 +142,13 @@ const NavBar = () => {
 							bgcolor: "#323232",
 						}}
 					>
-						<input className="searchBar" placeholder="Search" />
+						<input
+							className="searchBar"
+							placeholder="Search"
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+							onKeyDown={handleKeyPress}
+						/>
 					</Paper>
 					<IconButton
 						aria-label="search"
@@ -134,6 +161,7 @@ const NavBar = () => {
 							borderBottomRightRadius: 20,
 							bgcolor: "#323232",
 						}}
+						onClick={handleSearch}
 					>
 						<SearchIcon sx={{ color: "#9a9898" }} />
 					</IconButton>
@@ -167,9 +195,12 @@ const NavBar = () => {
 							sx={{ color: "#9a9898" }}
 							fontSize={isXsScreen ? "small" : "medium"}
 						/>
-						<Stack direction="row" alignItems="center" className="ytIcon"
+						<Stack
+							direction="row"
+							alignItems="center"
+							className="ytIcon"
 							onClick={() => {
-								navigate("/")
+								navigate("/");
 							}}
 						>
 							<YouTubeIcon
@@ -191,7 +222,19 @@ const NavBar = () => {
 		}
 	};
 
-	return <div style={{ position: "sticky", top: 0, zIndex: 100, backgroundColor: "#000000", paddingBottom: "8px"}}>{renderSearchInput()}</div>;
+	return (
+		<div
+			style={{
+				position: "sticky",
+				top: 0,
+				zIndex: 100,
+				backgroundColor: "#000000",
+				paddingBottom: "8px",
+			}}
+		>
+			{renderSearchInput()}
+		</div>
+	);
 };
 
 export default NavBar;

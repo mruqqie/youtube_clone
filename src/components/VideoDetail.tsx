@@ -25,11 +25,11 @@ const VideoDetail = () => {
 		}
 	};
 
-	console.log(
-		comments?.items.map(
-			(comment) => comment.snippet.topLevelComment.snippet
-		)
-	);
+	// console.log(
+	// 	comments?.items.map(
+	// 		(comment) => comment.snippet.topLevelComment.snippet
+	// 	)
+	// );
 
 	return (
 		<>
@@ -251,11 +251,11 @@ const VideoDetail = () => {
 										<Typography
 											sx={{
 												height: "auto",
-												fontWeight: "medium",
+												fontWeight: "600",
 												fontSize: "small",
 											}}
 										>
-											{
+											@{
 												item.snippet.topLevelComment
 													.snippet.authorDisplayName
 											}

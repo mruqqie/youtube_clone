@@ -53,7 +53,6 @@ const Feed = () => {
 	const isXsScreen = useMediaQuery("(max-width:599.5px)");
 	const skeletonArray = Array.from({ length: 40 }, (_, index) => index);
 
-	// console.log(data);
 	return (
 		<>
 			<NavBar />
