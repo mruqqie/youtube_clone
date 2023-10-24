@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { Box, Grid, Skeleton, Stack, useMediaQuery } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { Box, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
 import NavBar from "./NavBar";
 import SideBar from "./SideBar";
 import { fetchSearchResult, searchApiRes } from "../api/searchResult";
-import { InsertEmoticon } from "@mui/icons-material";
+import CircleIcon from "@mui/icons-material/Circle";
 
 const SearchFeed = () => {
-	const location = useLocation();
-	const { searchTerm } = location.state;
+	const searchTermParam = useParams<{ searchTerm?: string }>();
+	const searchTerm = searchTermParam.searchTerm ?? "";
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [data, setData] = useState<searchApiRes | null>(null);
@@ -87,16 +87,68 @@ const SearchFeed = () => {
 									<Box
 										sx={{
 											display: "flex",
-											alignItems: "center",
-											flexDirection: "column",
+											//alignItems: "center",
+											flexDirection: "row",
 											gap: 2,
 											border: "1px solid #ffffff",
 										}}
 									>
-										<Stack sx={{width:{
-											 
-										}}}>
-											<img src={item.snippet.thumbnails.high.url} alt="" />
+										<Stack
+											sx={{
+												//border: "1px solid",
+												width: "350px",
+											}}
+										>
+											<img
+												src={
+													item.snippet.thumbnails.high
+														.url
+												}
+												alt=""
+											/>
+										</Stack>
+										<Stack sx={{ marginTop: "30px" }}>
+											<Typography>
+												This is the name of the video
+												whose thumbnail is being
+												displayed. This is the name of
+												the video whose thumbnail is
+												being displayed
+											</Typography>
+											<Stack
+												direction="row"
+												alignItems="center"
+											>
+												<Typography
+													sx={{
+														color: "#ada9a9",
+														paddingRight: "4px",
+														marginBottom: "10%",
+													}}
+													variant="body2"
+												>
+													455550k views
+												</Typography>
+												<CircleIcon
+													sx={{
+														color: "#ada9a9",
+														width: "4px",
+														height: "4px",
+														marginTop: "-10%",
+													}}
+												/>
+												<Typography
+													sx={{
+														color: "#ada9a9",
+														paddingLeft: "4px",
+														marginBottom: "10%",
+														fontSize: "x-small"
+													}}
+													variant="body2"
+												>
+													5 days ago
+												</Typography>
+											</Stack>
 										</Stack>
 									</Box>
 								</Grid>
