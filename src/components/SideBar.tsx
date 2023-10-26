@@ -8,14 +8,14 @@ const sideBar = () => {
 		<Stack
 			gap={2}
 			sx={{
-				display: "flex", 
+				display: "flex",
 				justifyContent: "center",
 				flexDirection: { sm: "column", xs: "row" },
-				gap: {xs: 6, sm: 2},
+				gap: { xs: 6, sm: 2 },
 				position: "sticky",
-        top: 70,
-        left: 0,
-        zIndex: 100,
+				top: 70,
+				left: 0,
+				zIndex: 100,
 			}}
 		>
 			<Tooltip title="Home" followCursor>
@@ -36,7 +36,7 @@ const sideBar = () => {
 						sx={{
 							color: "#ffffff",
 							fontSize: {
-								xs: "x-small"
+								xs: "x-small",
 							},
 						}}
 					>

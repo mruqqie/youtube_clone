@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
+import {
+	Box,
+	Grid,
+	Stack,
+	Tooltip,
+	Typography,
+	useMediaQuery,
+} from "@mui/material";
 import NavBar from "./NavBar";
 import SideBar from "./SideBar";
 import { fetchSearchResult, searchApiRes } from "../api/searchResult";
@@ -13,7 +20,8 @@ const SearchFeed = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [data, setData] = useState<searchApiRes | null>(null);
 
-	const isXsScreen = useMediaQuery("(max-width:599.5px)");
+	const isXsScreen = useMediaQuery("(max-width:652px)");
+	const isMdScreen = useMediaQuery("(max-width:799.5px)");
 
 	const parseQuery = (queryString: string): string => {
 		const parsedQuery = queryString.replace(/ /g, "%20");
@@ -33,7 +41,43 @@ const SearchFeed = () => {
 			console.log(err);
 		}
 	};
-	console.log(data?.items.map((item) => item.snippet.thumbnails.high));
+	const decodeHTMLEntities = (html: string): string => {
+		const doc = new DOMParser().parseFromString(html, "text/html");
+		return doc.documentElement.textContent || "";
+	};
+
+	const formatViewCount = (viewCount: string) => {
+		const count = Number(viewCount);
+		if (count >= 1e6) {
+			return (count / 1e6).toFixed(1) + "M";
+		} else if (count >= 1e3) {
+			return (count / 1e3).toFixed(1) + "K";
+		} else {
+			return count.toString();
+		}
+	};
+
+	const timePosted = (timestamp: string) => {
+		const currentDate = new Date();
+		const publishedDate = new Date(timestamp);
+		const timeDifference = Number(currentDate) - Number(publishedDate);
+
+		const seconds = Math.floor(timeDifference / 1000);
+		const minutes = Math.floor(seconds / 60);
+		const hours = Math.floor(minutes / 60);
+		const days = Math.floor(hours / 24);
+
+		if (days > 0) {
+			return `${days} day${days !== 1 ? "s" : ""} ago`;
+		} else if (hours > 0) {
+			return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
+		} else if (minutes > 0) {
+			return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
+		} else {
+			return `${seconds} second${seconds !== 1 ? "s" : ""} ago`;
+		}
+	};
+	console.log(data?.items);
 
 	return (
 		<>
@@ -53,109 +97,336 @@ const SearchFeed = () => {
 						<SideBar />
 					</Grid>
 				)}
-				<Grid
-					item
-					xs={12}
-					sm
-					sx={{
-						height: { xs: "90%", sm: "100%" },
-					}}
-				>
+				{isMdScreen ? (
 					<Grid
-						container
-						gap={1.5}
+						item
+						xs={12}
+						sm
 						sx={{
-							display: "flex",
-							justifyContent: "center",
-							paddingLeft: "3px",
-							paddingRight: "3px",
+							height: { xs: "90%", sm: "100%" },
 						}}
 					>
-						{data?.items.map((item) => {
-							return (
-								<Grid
-									item
-									sx={{
-										width: {
-											// lg: "24%",
-											// md: "32%",
-											// sm: "48%",
-											xs: "80%",
-										},
-									}}
-								>
-									<Box
+						<Grid
+							container
+							gap={1.5}
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								paddingLeft: "3px",
+								paddingRight: "3px",
+							}}
+						>
+							{data?.items.map((item) => {
+								return (
+									<Grid
+										item
 										sx={{
-											display: "flex",
-											//alignItems: "center",
-											flexDirection: "row",
-											gap: 2,
-											border: "1px solid #ffffff",
+											width: "80%",
+											paddingBottom: 2,
 										}}
 									>
-										<Stack
+										<Box
 											sx={{
-												//border: "1px solid",
-												width: "350px",
+												display: "flex",
+												alignItems: "center",
+												flexDirection: "column",
+												gap: 2,
+												//border: "1px solid #ffffff",
 											}}
 										>
-											<img
-												src={
-													item.snippet.thumbnails.high
-														.url
-												}
-												alt=""
-											/>
-										</Stack>
-										<Stack sx={{ marginTop: "30px" }}>
-											<Typography>
-												This is the name of the video
-												whose thumbnail is being
-												displayed. This is the name of
-												the video whose thumbnail is
-												being displayed
-											</Typography>
+											<Stack
+												sx={{
+													//border: "1px solid",
+													width: "100%",
+												}}
+											>
+												<img
+													src={
+														item.snippet.thumbnails
+															.high.url
+													}
+													alt=""
+												/>
+											</Stack>
 											<Stack
 												direction="row"
-												alignItems="center"
+												gap={1}
+												alignItems="flex-start"
+												sx={{
+													width: "100%",
+												}}
 											>
-												<Typography
-													sx={{
-														color: "#ada9a9",
-														paddingRight: "4px",
-														marginBottom: "10%",
-													}}
-													variant="body2"
+												<Stack
+													direction="row"
+													alignItems="center"
+													gap={1}
+													//sx={{ marginTop: "7px" }}
 												>
-													455550k views
-												</Typography>
-												<CircleIcon
-													sx={{
-														color: "#ada9a9",
-														width: "4px",
-														height: "4px",
-														marginTop: "-10%",
-													}}
-												/>
-												<Typography
-													sx={{
-														color: "#ada9a9",
-														paddingLeft: "4px",
-														marginBottom: "10%",
-														fontSize: "x-small"
-													}}
-													variant="body2"
-												>
-													5 days ago
-												</Typography>
+													<img
+														src=""
+														width={25}
+														height={25}
+														className="channelPic"
+													/>
+												</Stack>
+												<Stack gap={1}>
+													<Typography>
+														{decodeHTMLEntities(
+															item.snippet.title
+														)}
+													</Typography>
+													<Tooltip title="Channel name">
+														<Typography
+															sx={{
+																color: "#ada9a9",
+																fontSize:
+																	"small",
+															}}
+															variant="body2"
+														>
+															Taylor Swiftttttt
+														</Typography>
+													</Tooltip>
+													<Stack
+														direction="row"
+														alignItems="center"
+													>
+														<Typography
+															sx={{
+																color: "#ada9a9",
+																paddingRight:
+																	"4px",
+																fontSize:
+																	"small",
+															}}
+															variant="body2"
+														>
+															{/* {formatViewCount(item.snippet.)} */}
+															30k views
+														</Typography>
+														<CircleIcon
+															sx={{
+																color: "#ada9a9",
+																width: "4px",
+																height: "4px",
+															}}
+														/>
+														<Typography
+															sx={{
+																color: "#ada9a9",
+																paddingLeft:
+																	"4px",
+																fontSize:
+																	"small",
+															}}
+															variant="body2"
+														>
+															{timePosted(item.snippet.publishedAt)}
+														</Typography>
+													</Stack>
+												</Stack>
 											</Stack>
-										</Stack>
-									</Box>
+										</Box>
+									</Grid>
+								);
+							})}
+							{isXsScreen && (
+								<Grid
+									item
+									xs={12}
+									sm="auto"
+									sx={{
+										position: "fixed",
+										bottom: 0,
+										zIndex: 100,
+										backgroundColor: "#000000",
+										width: "100%",
+										display: "flex",
+										justifyContent: "space-around",
+									}}
+								>
+									<SideBar />
 								</Grid>
-							);
-						})}
+							)}
+						</Grid>
 					</Grid>
-				</Grid>
+				) : (
+					<Grid
+						item
+						xs={12}
+						sm
+						sx={{
+							height: { xs: "90%", sm: "100%" },
+						}}
+					>
+						<Grid
+							container
+							gap={1.5}
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								paddingLeft: "3px",
+								paddingRight: "3px",
+							}}
+						>
+							{data?.items.map((item) => {
+								return (
+									<Grid
+										item
+										sx={{
+											width: {
+												// lg: "24%",
+												// md: "32%",
+												// sm: "48%",
+												xs: "80%",
+											},
+										}}
+									>
+										<Box
+											sx={{
+												display: "flex",
+												//alignItems: "center",
+												flexDirection: "row",
+												gap: 2,
+												//border: "1px solid #ffffff",
+											}}
+										>
+											<Stack
+												sx={{
+													//border: "1px solid",
+													width: "40%",
+												}}
+											>
+												<img
+													src={
+														item.snippet.thumbnails
+															.high.url
+													}
+													alt=""
+												/>
+											</Stack>
+											<Stack sx={{ marginTop: "3%" }}>
+												<Typography>
+													This is the name of the
+													video whose thumbnail is
+													being displayed. This is the
+													name of the video whose
+													thumbnail is being displayed
+												</Typography>
+												<Stack
+													direction="row"
+													alignItems="center"
+												>
+													<Typography
+														sx={{
+															color: "#ada9a9",
+															paddingRight: "4px",
+															fontSize: "x-small",
+														}}
+														variant="body2"
+													>
+														455550k views
+													</Typography>
+													<CircleIcon
+														sx={{
+															color: "#ada9a9",
+															width: "4px",
+															height: "4px",
+														}}
+													/>
+													<Typography
+														sx={{
+															color: "#ada9a9",
+															paddingLeft: "4px",
+															fontSize: "x-small",
+														}}
+														variant="body2"
+													>
+														5 days ago
+													</Typography>
+												</Stack>
+												<Stack
+													direction="row"
+													alignItems="center"
+													gap={1}
+													sx={{ marginTop: "7px" }}
+												>
+													<img
+														src=""
+														width={25}
+														height={25}
+														className="channelPic"
+													/>
+													<Tooltip title="Channel name">
+														<Typography
+															sx={{
+																color: "#ada9a9",
+																paddingLeft:
+																	"4px",
+																fontSize:
+																	"x-small",
+															}}
+															variant="body2"
+														>
+															Taylor Swiftttttt
+														</Typography>
+													</Tooltip>
+												</Stack>
+												<Stack>
+													<Tooltip title="From the video description">
+														<Typography
+															sx={{
+																color: "#ada9a9",
+																fontSize:
+																	"small",
+																marginTop:
+																	"15px",
+															}}
+															variant="body2"
+														>
+															Lorem ipsum dolor
+															sit, amet
+															consectetur
+															adipisicing elit.
+															Quam dolorum aliquam
+															totam magnam
+															laboriosam? Iusto
+															aspernatur corporis
+															sint perspiciatis,
+															fuga distinctio,
+															quaerat esse fugiat
+															sit eligendi nobis.
+															Non, corporis
+															provident.
+														</Typography>
+													</Tooltip>
+												</Stack>
+											</Stack>
+										</Box>
+									</Grid>
+								);
+							})}
+							{isXsScreen && (
+								<Grid
+									item
+									xs={12}
+									sm="auto"
+									sx={{
+										position: "fixed",
+										bottom: 0,
+										zIndex: 100,
+										backgroundColor: "#000000",
+										width: "100%",
+										display: "flex",
+										justifyContent: "space-around",
+									}}
+								>
+									<SideBar />
+								</Grid>
+							)}
+						</Grid>
+					</Grid>
+				)}
 			</Grid>
 		</>
 	);

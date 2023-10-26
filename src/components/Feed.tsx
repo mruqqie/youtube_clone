@@ -440,7 +440,6 @@ const Feed = () => {
 						</Grid>
 					)}
 				</Grid>
-
 				{isXsScreen && (
 					<Grid
 						item

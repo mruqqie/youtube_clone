@@ -35,7 +35,7 @@ const fetchSearchResult = async (
 	searchTerm: string
 ): Promise<searchApiRes> => {
 	try {
-		const SEARCH_URL = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${searchTerm}&key=${process.env.REACT_APP_API_KEY}`;
+		const SEARCH_URL = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${searchTerm}&type=video&videoEmbeddable=true&key=${process.env.REACT_APP_API_KEY}`;
 		const res: AxiosResponse = await axios.get<searchApiRes>(SEARCH_URL);
 
 		return res.data;
