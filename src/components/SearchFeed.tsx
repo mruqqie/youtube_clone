@@ -12,6 +12,12 @@ import NavBar from "./NavBar";
 import SideBar from "./SideBar";
 import { fetchSearchResult, searchApiRes } from "../api/searchResult";
 import CircleIcon from "@mui/icons-material/Circle";
+import {
+	ChannelApiRes,
+	VidApiRes,
+	fetchChannelDetails,
+	fetchVideos,
+} from "../api/fetchVideos";
 
 const SearchFeed = () => {
 	const searchTermParam = useParams<{ searchTerm?: string }>();
@@ -19,6 +25,8 @@ const SearchFeed = () => {
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [data, setData] = useState<searchApiRes | null>(null);
+	const [channelData, setChannelData] = useState<ChannelApiRes | null>(null);
+	const [videoData, setVideoData] = useState<VidApiRes | null>(null);
 
 	const isXsScreen = useMediaQuery("(max-width:652px)");
 	const isMdScreen = useMediaQuery("(max-width:799.5px)");
@@ -37,6 +45,26 @@ const SearchFeed = () => {
 			const parsedSearchTerm = parseQuery(searchTerm);
 			const searchData = await fetchSearchResult(parsedSearchTerm);
 			setData(searchData);
+
+			const channelIds = searchData?.items.map(
+				(item) => item.snippet.channelId
+			);
+			if (channelIds) {
+				const channelResult = await fetchChannelDetails(
+					channelIds.join(",")
+				);
+				setChannelData(channelResult);
+			}
+
+			const videoIds = searchData?.items.map(
+				(item) => item.id.videoId
+			)
+			if (videoIds) {
+				const videoRes = await fetchVideos(
+					videoIds.join(",")
+				)
+				setVideoData(videoRes)
+			}
 		} catch (err) {
 			console.log(err);
 		}
@@ -117,6 +145,10 @@ const SearchFeed = () => {
 							}}
 						>
 							{data?.items.map((item) => {
+								const channelItem = channelData?.items.find(
+									(channel) =>
+										channel.id === item.snippet.channelId
+								);
 								return (
 									<Grid
 										item
@@ -131,12 +163,10 @@ const SearchFeed = () => {
 												alignItems: "center",
 												flexDirection: "column",
 												gap: 2,
-												//border: "1px solid #ffffff",
 											}}
 										>
 											<Stack
 												sx={{
-													//border: "1px solid",
 													width: "100%",
 												}}
 											>
@@ -163,7 +193,11 @@ const SearchFeed = () => {
 													//sx={{ marginTop: "7px" }}
 												>
 													<img
-														src=""
+														src={
+															channelItem?.snippet
+																.thumbnails.high
+																.url
+														}
 														width={25}
 														height={25}
 														className="channelPic"
@@ -184,7 +218,10 @@ const SearchFeed = () => {
 															}}
 															variant="body2"
 														>
-															Taylor Swiftttttt
+															{
+																item.snippet
+																	.channelTitle
+															}
 														</Typography>
 													</Tooltip>
 													<Stack
@@ -221,7 +258,10 @@ const SearchFeed = () => {
 															}}
 															variant="body2"
 														>
-															{timePosted(item.snippet.publishedAt)}
+															{timePosted(
+																item.snippet
+																	.publishedAt
+															)}
 														</Typography>
 													</Stack>
 												</Stack>
@@ -270,6 +310,10 @@ const SearchFeed = () => {
 							}}
 						>
 							{data?.items.map((item) => {
+								const channelItem = channelData?.items.find(
+									(channel) =>
+										channel.id === item.snippet.channelId
+								);
 								return (
 									<Grid
 										item
@@ -307,11 +351,9 @@ const SearchFeed = () => {
 											</Stack>
 											<Stack sx={{ marginTop: "3%" }}>
 												<Typography>
-													This is the name of the
-													video whose thumbnail is
-													being displayed. This is the
-													name of the video whose
-													thumbnail is being displayed
+													{decodeHTMLEntities(
+														item.snippet.title
+													)}
 												</Typography>
 												<Stack
 													direction="row"
@@ -325,7 +367,7 @@ const SearchFeed = () => {
 														}}
 														variant="body2"
 													>
-														455550k views
+														450k views
 													</Typography>
 													<CircleIcon
 														sx={{
@@ -342,7 +384,10 @@ const SearchFeed = () => {
 														}}
 														variant="body2"
 													>
-														5 days ago
+														{timePosted(
+															item.snippet
+																.publishedAt
+														)}
 													</Typography>
 												</Stack>
 												<Stack
@@ -352,7 +397,11 @@ const SearchFeed = () => {
 													sx={{ marginTop: "7px" }}
 												>
 													<img
-														src=""
+														src={
+															channelItem?.snippet
+																.thumbnails.high
+																.url
+														}
 														width={25}
 														height={25}
 														className="channelPic"
@@ -368,7 +417,10 @@ const SearchFeed = () => {
 															}}
 															variant="body2"
 														>
-															Taylor Swiftttttt
+															{
+																item.snippet
+																	.channelTitle
+															}
 														</Typography>
 													</Tooltip>
 												</Stack>
@@ -384,20 +436,10 @@ const SearchFeed = () => {
 															}}
 															variant="body2"
 														>
-															Lorem ipsum dolor
-															sit, amet
-															consectetur
-															adipisicing elit.
-															Quam dolorum aliquam
-															totam magnam
-															laboriosam? Iusto
-															aspernatur corporis
-															sint perspiciatis,
-															fuga distinctio,
-															quaerat esse fugiat
-															sit eligendi nobis.
-															Non, corporis
-															provident.
+															{
+																item.snippet
+																	.description
+															}
 														</Typography>
 													</Tooltip>
 												</Stack>
