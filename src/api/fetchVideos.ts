@@ -61,6 +61,13 @@ interface ChannelItems {
 	};
 }
 
+interface VideoItems {
+	id: string;
+	statistics: {
+		viewCount: String;
+	};
+}
+
 export interface VidApiRes {
 	items: Items[];
 	nextPageToken?: string;
@@ -68,6 +75,9 @@ export interface VidApiRes {
 
 export interface ChannelApiRes {
 	items: ChannelItems[];
+}
+export interface VideoSearchRes {
+	items: VideoItems[];
 }
 
 const VIDEO_BASE_URL = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=localizations&part=player&part=statistics&chart=mostPopular&maxResults=50&key=${process.env.REACT_APP_API_KEY}`;
@@ -97,4 +107,15 @@ const fetchChannelDetails = async (
 	}
 };
 
-export { fetchVideos, fetchChannelDetails };
+const fetchVideoDetails = async (videoId: string): Promise<VideoSearchRes> => {
+	try {
+		const GETVIDBASEURL = `https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id=2JgvVfOfoWI&key=${process.env.REACT_APP_API_KEY}`;
+		const res: AxiosResponse = await axios.get<VideoSearchRes>(GETVIDBASEURL);
+		return res.data;
+	} catch (err) {
+		console.error("Error Fetching Search Video Details");
+		throw err;
+	}
+};
+
+export { fetchVideos, fetchChannelDetails, fetchVideoDetails };

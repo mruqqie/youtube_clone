@@ -16,7 +16,9 @@ import {
 	ChannelApiRes,
 	VidApiRes,
 	fetchChannelDetails,
+	fetchVideoDetails,
 	fetchVideos,
+	VideoSearchRes,
 } from "../api/fetchVideos";
 
 const SearchFeed = () => {
@@ -26,7 +28,7 @@ const SearchFeed = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [data, setData] = useState<searchApiRes | null>(null);
 	const [channelData, setChannelData] = useState<ChannelApiRes | null>(null);
-	const [videoData, setVideoData] = useState<VidApiRes | null>(null);
+	const [videoData, setVideoData] = useState<VideoSearchRes | null>(null);
 
 	const isXsScreen = useMediaQuery("(max-width:652px)");
 	const isMdScreen = useMediaQuery("(max-width:799.5px)");
@@ -56,14 +58,10 @@ const SearchFeed = () => {
 				setChannelData(channelResult);
 			}
 
-			const videoIds = searchData?.items.map(
-				(item) => item.id.videoId
-			)
+			const videoIds = searchData?.items.map((item) => item.id.videoId);
 			if (videoIds) {
-				const videoRes = await fetchVideos(
-					videoIds.join(",")
-				)
-				setVideoData(videoRes)
+				const videoRes = await fetchVideoDetails(videoIds.join(","));
+				setVideoData(videoRes);
 			}
 		} catch (err) {
 			console.log(err);
@@ -148,6 +146,9 @@ const SearchFeed = () => {
 								const channelItem = channelData?.items.find(
 									(channel) =>
 										channel.id === item.snippet.channelId
+								);
+								const vidItem = videoData?.items.find(
+									(video) => video.id === item.id.videoId
 								);
 								return (
 									<Grid
@@ -238,8 +239,12 @@ const SearchFeed = () => {
 															}}
 															variant="body2"
 														>
-															{/* {formatViewCount(item.snippet.)} */}
-															30k views
+															{
+																vidItem
+																	?.statistics
+																	.viewCount
+															}
+															views
 														</Typography>
 														<CircleIcon
 															sx={{
