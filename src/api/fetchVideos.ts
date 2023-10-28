@@ -109,7 +109,7 @@ const fetchChannelDetails = async (
 
 const fetchVideoDetails = async (videoId: string): Promise<VideoSearchRes> => {
 	try {
-		const GETVIDBASEURL = `https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id=2JgvVfOfoWI&key=${process.env.REACT_APP_API_KEY}`;
+		const GETVIDBASEURL = `https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${process.env.REACT_APP_API_KEY}`;
 		const res: AxiosResponse = await axios.get<VideoSearchRes>(GETVIDBASEURL);
 		return res.data;
 	} catch (err) {

@@ -20,6 +20,7 @@ import {
 	fetchVideos,
 	VideoSearchRes,
 } from "../api/fetchVideos";
+import { useNavigate } from "react-router-dom";
 
 const SearchFeed = () => {
 	const searchTermParam = useParams<{ searchTerm?: string }>();
@@ -30,13 +31,14 @@ const SearchFeed = () => {
 	const [channelData, setChannelData] = useState<ChannelApiRes | null>(null);
 	const [videoData, setVideoData] = useState<VideoSearchRes | null>(null);
 
-	const isXsScreen = useMediaQuery("(max-width:652px)");
+	const isXsScreen = useMediaQuery("(max-width:599.5px)");
 	const isMdScreen = useMediaQuery("(max-width:799.5px)");
 
 	const parseQuery = (queryString: string): string => {
 		const parsedQuery = queryString.replace(/ /g, "%20");
 		return parsedQuery;
 	};
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		fetchSearchData();
@@ -92,8 +94,23 @@ const SearchFeed = () => {
 		const minutes = Math.floor(seconds / 60);
 		const hours = Math.floor(minutes / 60);
 		const days = Math.floor(hours / 24);
+		const weeks = Math.floor(days / 7);
+		const months = Math.floor(
+			currentDate.getMonth() -
+				publishedDate.getMonth() +
+				12 * (currentDate.getFullYear() - publishedDate.getFullYear())
+		);
+		const years = Math.floor(
+			currentDate.getFullYear() - publishedDate.getFullYear()
+		);
 
-		if (days > 0) {
+		if (years > 0) {
+			return `${years} year${years !== 1 ? "s" : ""} ago`;
+		} else if (months > 0) {
+			return `${months} month${months !== 1 ? "s" : ""} ago`;
+		} else if (weeks > 0) {
+			return `${weeks} week${weeks !== 1 ? "s" : ""} ago`;
+		} else if (days > 0) {
 			return `${days} day${days !== 1 ? "s" : ""} ago`;
 		} else if (hours > 0) {
 			return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
@@ -164,6 +181,25 @@ const SearchFeed = () => {
 												alignItems: "center",
 												flexDirection: "column",
 												gap: 2,
+												"&:hover": {
+													cursor: "pointer",
+												},
+											}}
+											onClick={() => {
+												navigate(`/video/${item.id.videoId}`, {
+													state: {
+														id: item.id.videoId,
+														title: item.snippet
+															.title,
+														channelImg:
+															channelItem?.snippet
+																.thumbnails.high
+																.url,
+														channelTitle:
+															item.snippet
+																.channelTitle,
+													},
+												});
 											}}
 										>
 											<Stack
@@ -239,11 +275,14 @@ const SearchFeed = () => {
 															}}
 															variant="body2"
 														>
-															{
-																vidItem
-																	?.statistics
-																	.viewCount
-															}
+															{formatViewCount(
+																(
+																	vidItem
+																		?.statistics
+																		?.viewCount ||
+																	""
+																).toString()
+															)}{" "}
 															views
 														</Typography>
 														<CircleIcon
@@ -302,6 +341,7 @@ const SearchFeed = () => {
 						sm
 						sx={{
 							height: { xs: "90%", sm: "100%" },
+							width: "60%",
 						}}
 					>
 						<Grid
@@ -319,14 +359,14 @@ const SearchFeed = () => {
 									(channel) =>
 										channel.id === item.snippet.channelId
 								);
+								const vidItem = videoData?.items.find(
+									(video) => video.id === item.id.videoId
+								);
 								return (
 									<Grid
 										item
 										sx={{
 											width: {
-												// lg: "24%",
-												// md: "32%",
-												// sm: "48%",
 												xs: "80%",
 											},
 										}}
@@ -334,15 +374,31 @@ const SearchFeed = () => {
 										<Box
 											sx={{
 												display: "flex",
-												//alignItems: "center",
 												flexDirection: "row",
 												gap: 2,
-												//border: "1px solid #ffffff",
+												"&:hover": {
+													cursor: "pointer",
+												},
+											}}
+											onClick={() => {
+												navigate(`/video/${item.id.videoId}`, {
+													state: {
+														id: item.id.videoId,
+														title: item.snippet
+															.title,
+														channelImg:
+															channelItem?.snippet
+																.thumbnails.high
+																.url,
+														channelTitle:
+															item.snippet
+																.channelTitle,
+													},
+												});
 											}}
 										>
 											<Stack
 												sx={{
-													//border: "1px solid",
 													width: "40%",
 												}}
 											>
@@ -372,7 +428,15 @@ const SearchFeed = () => {
 														}}
 														variant="body2"
 													>
-														450k views
+														{formatViewCount(
+															(
+																vidItem
+																	?.statistics
+																	?.viewCount ||
+																""
+															).toString()
+														)}{" "}
+														views
 													</Typography>
 													<CircleIcon
 														sx={{
