@@ -8,7 +8,7 @@ import {
 	VideoDetail,
 } from "./components";
 import "./App.css";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material";
 
 const theme = createTheme({
 	typography: {
@@ -18,8 +18,6 @@ const theme = createTheme({
 
 function App() {
 	return (
-		//<ThemeProvider theme={theme}>
-		//	<CssBaseline />
 		<Box sx={{ backgroundColor: "#000000" }}>
 			<BrowserRouter basename="/youtube_clone">
 				<Routes>
@@ -36,7 +34,6 @@ function App() {
 				</Routes>
 			</BrowserRouter>
 		</Box>
-		//</ThemeProvider>
 	);
 }
 
