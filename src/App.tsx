@@ -21,7 +21,7 @@ function App() {
 		//<ThemeProvider theme={theme}>
 		//	<CssBaseline />
 		<Box sx={{ backgroundColor: "#000000" }}>
-			<BrowserRouter>
+			<BrowserRouter basename="/youtube_clone">
 				<Routes>
 					<Route
 						path="/channel/:id"
@@ -32,7 +32,6 @@ function App() {
 						path="/search/:searchTerm"
 						element={<SearchFeed />}
 					/>
-					<Route path="/" element={<Feed />} />
 					<Route path="/video/:id" element={<VideoDetail />} />
 				</Routes>
 			</BrowserRouter>
